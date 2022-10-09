@@ -16,6 +16,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFF2F2F2),
       body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -269,7 +270,9 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {}, label: Text('Checkout')),
+          backgroundColor: AppColors.gradientStart,
+          onPressed: () {},
+          label: Text('Checkout')),
     );
   }
 }

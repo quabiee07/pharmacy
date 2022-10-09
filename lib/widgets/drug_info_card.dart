@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy/widgets/add_to_cart_btn.dart';
+import 'package:pharmacy/widgets/custom_fav_icon.dart';
 
 import '../util/constants.dart';
 
@@ -20,8 +22,8 @@ class DrugInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 223,
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      // height: 250,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
@@ -62,15 +64,28 @@ class DrugInfoCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 9),
-            Text(
-              '${AppStrings.naira}$price',
-              style: const TextStyle(
-                fontFamily: fontFamily,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF363636),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${AppStrings.naira}$price',
+                  style: const TextStyle(
+                    fontFamily: fontFamily,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF363636),
+                  ),
+                ),
+                SizedBox(
+                  width: 48,
+                ),
+                CustomFavButton()
+              ],
             ),
+            SizedBox(
+              height: 13,
+            ),
+            AddToCartButton()
           ])
         ],
       ),
