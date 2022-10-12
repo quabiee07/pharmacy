@@ -1,4 +1,5 @@
 class AppStrings {
+  static const String category = 'Category';
   static const String appName = 'Pharmacy';
   static const String naira = '₦';
   static const String deliveryIn = 'Delivery In';

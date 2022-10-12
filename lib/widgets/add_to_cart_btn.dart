@@ -15,7 +15,7 @@ class AddToCartButton extends StatelessWidget {
           border: Border.all(color: AppColors.gradientStart, width: 1.5),
           borderRadius: BorderRadius.circular(10.0),
           color: Colors.white),
-      child: Center(
+      child: const Center(
         child: Text(
           'ADD TO CART',
           style: const TextStyle(

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacy/pages/category_page.dart';
+import 'package:pharmacy/pages/product_details_page.dart';
 import 'package:pharmacy/util/colors.dart';
 import 'package:pharmacy/widgets/drug_info_card.dart';
 import 'package:pharmacy/widgets/frosty_textfield.dart';
 
+import '../model/product.dart';
 import '../util/constants.dart';
 import '../widgets/category_card.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      backgroundColor: Color(0xFFF2F2F2),
+      backgroundColor: const Color(0xFFF2F2F2),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
@@ -111,7 +113,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 16,
+              height: 2,
             ),
             Container(
               width: width,
@@ -134,19 +136,28 @@ class HomePage extends StatelessWidget {
                           color: const Color(0xFF363636).withOpacity(0.4),
                         ),
                       ),
-                      Spacer(),
-                      const Text(
-                        'VIEW ALL',
-                        style: TextStyle(
-                            fontFamily: fontFamily,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.gradientStart),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CategoryPage(),
+                              ));
+                        },
+                        child: const Text(
+                          'VIEW ALL',
+                          style: TextStyle(
+                              fontFamily: fontFamily,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.gradientStart),
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 15),
-                  Container(
+                  const SizedBox(height: 5),
+                  SizedBox(
                     height: 180,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -176,103 +187,53 @@ class HomePage extends StatelessWidget {
                       fontFamily: fontFamily,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF363636).withOpacity(0.4),
+                      color: const Color(0xFF363636).withOpacity(0.4),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 15),
                   SizedBox(
                     height: 300,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Spacer(),
-                            DrugInfoCard(
-                              drugName: 'Paracetamol',
-                              drugType: 'Tablet',
-                              qty: '500mg',
-                              price: '350.00',
-                              image: 'assets/paracetamol.png',
+                    child: GridView.count(
+                      childAspectRatio: 0.66,
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      children: List.generate(
+                        products.length,
+                        (index) => DrugInfoCard(
+                          drugName: products[index].productName,
+                          drugType: products[index].productType,
+                          qty: products[index].productQty,
+                          price: products[index].productPrice,
+                          image: Hero(
+                            tag:'image$index',
+                            child: Image.asset(
+                              products[index].productImage,
                             ),
-                            Spacer(),
-                            DrugInfoCard(
-                              drugName: 'Doliprane',
-                              drugType: 'Capsule',
-                              qty: '1000mg',
-                              price: '350.00',
-                              image: 'assets/doliprane.png',
-                            ),
-                            Spacer(),
-                          ],
+                          ),
+                          index: index,
+                          onTapped: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductDetailsPage(
+                                      product: products[index]),
+                                ));
+                          },
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Spacer(),
-                            DrugInfoCard(
-                              drugName: 'Paracetamol',
-                              drugType: 'Tablet',
-                              qty: '500mg',
-                              price: '350.00',
-                              image: 'assets/paracetamol1.png',
-                            ),
-                            Spacer(),
-                            DrugInfoCard(
-                              drugName: 'Ibuprofen',
-                              drugType: 'Tablet',
-                              qty: '200mg',
-                              price: '350.00',
-                              image: 'assets/ibuprofen.png',
-                            ),
-                            Spacer(),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Spacer(),
-                            DrugInfoCard(
-                              drugName: 'Panadol',
-                              drugType: 'Tablet',
-                              qty: '500mg',
-                              price: '350.00',
-                              image: 'assets/panadol.png',
-                            ),
-                            Spacer(),
-                            DrugInfoCard(
-                              drugName: 'Ibuprofen',
-                              drugType: 'Tablet',
-                              qty: '400mg',
-                              price: '350.00',
-                              image: 'assets/ibuprofen1.jpg',
-                            ),
-                            Spacer(),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                      ],
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: AppColors.gradientStart,
-          onPressed: () {},
-          label: Text('Checkout')),
+      // floatingActionButton: FloatingActionButton.extended(
+      //     backgroundColor: AppColors.gradientStart,
+      //     onPressed: () {},
+      //     label: Text('Checkout')),
     );
   }
 }
