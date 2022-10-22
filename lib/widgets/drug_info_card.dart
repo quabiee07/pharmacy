@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pharmacy/widgets/add_to_cart_btn.dart';
 import 'package:pharmacy/widgets/custom_fav_icon.dart';
 
-import '../model/product.dart';
 import '../util/constants.dart';
 
 class DrugInfoCard extends StatelessWidget {
@@ -29,7 +28,7 @@ class DrugInfoCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTapped,
       child: Container(
-        height: 320,
+        height: 250,
         padding: const EdgeInsets.all(7.0),
         decoration: BoxDecoration(
             color: Colors.white,
@@ -46,10 +45,7 @@ class DrugInfoCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 140,
-                child: image
-              ),
+              SizedBox(width: 140, child: image),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -85,7 +81,7 @@ class DrugInfoCard extends StatelessWidget {
                           color: Color(0xFF363636),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 48,
                       ),
                       CustomFavButton()

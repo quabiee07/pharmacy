@@ -1,20 +1,32 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmacy/pages/cart_page.dart';
 import 'package:pharmacy/pages/category_page.dart';
 import 'package:pharmacy/pages/product_details_page.dart';
 import 'package:pharmacy/util/colors.dart';
 import 'package:pharmacy/widgets/drug_info_card.dart';
 import 'package:pharmacy/widgets/frosty_textfield.dart';
+import 'package:provider/provider.dart';
 
 import '../model/product.dart';
+import '../providers/cart_provider.dart';
 import '../util/constants.dart';
 import '../widgets/category_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+ 
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final cart = Provider.of<CartProvider>(context);
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       body: SingleChildScrollView(
@@ -63,7 +75,28 @@ class HomePage extends StatelessWidget {
                               color: Colors.white),
                         ),
                         const Spacer(),
-                        Image.asset('assets/truck.png'),
+                        Badge(
+                          badgeContent: Consumer<CartProvider>(
+                            builder: (context, value, child) {
+                              return Text(
+                                value.getCounter().toString(),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              );
+                            },
+                          ),
+                          position: const BadgePosition(start: 30, bottom: 30),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const CartPage()));
+                            },
+                            icon: const Icon(Icons.shopping_cart),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -204,9 +237,9 @@ class HomePage extends StatelessWidget {
                           drugName: products[index].productName,
                           drugType: products[index].productType,
                           qty: products[index].productQty,
-                          price: products[index].productPrice,
+                          price: products[index].productPrice.toString(),
                           image: Hero(
-                            tag:'image$index',
+                            tag: 'image$index',
                             child: Image.asset(
                               products[index].productImage,
                             ),
